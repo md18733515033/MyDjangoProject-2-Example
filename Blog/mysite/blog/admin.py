@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from blog.models import BlogPost
+from blog.models import Post
 
 
-@admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'slug', 'author', 'body', 'publish', 'created', 'updated', 'status')
     # 通过包含的字段进行过滤
     list_filter = ('status', 'created', 'publish', 'author')
