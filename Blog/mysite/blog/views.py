@@ -1,28 +1,21 @@
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .models import Post
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def post_list(request):
-    posts = Post.published.get(id=1)
-    print(posts.title)
-    # for post in posts:
-    #     print(post)
-    #     print(post.publish)
-    #     print(post.author.id)
-    #     print(post.author.first_name)
+    objects_list = Post.published.all()
+    paginator = Paginator(objects_list, 2)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    return render(request, 'blog/post/list.html', {'page': page, 'posts': posts})
 
-        # print(1111)
-
-    # posts.update(title="小欢喜")
-    # posts_new = Post.published.all()
-    # for post in posts.iterator():
-    #     print(post)
-
-    # return render(request, 'blog/post/list.html', {'posts': posts})
-    return HttpResponse(content="OK")
 
 def post_detail(request, year, month, day, post):
-    post = get_object_or_404(Post, slug=post, status='published', publish__year=year, publish__month=month,
-                             publish__day=day)
+    post = Post.objects.get(slug=post, status='published', publish__year=year)
     return render(request, 'blog/post/detail.html', {'post': post})
