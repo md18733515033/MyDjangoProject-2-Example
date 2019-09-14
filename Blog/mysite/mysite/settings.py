@@ -129,6 +129,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# 配置log打印执行的sql语句日志
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -147,3 +148,13 @@ STATIC_URL = '/static/'
 #         },
 #     }
 # }
+
+
+# 配置发送邮件
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'sjzxjqazwsxedc@163.com'
+EMAIL_HOST_PASSWORD = 'zgbjmd2019'
+EMAIL_FROM = 'sjzxjqazwsxedc@163.com'
