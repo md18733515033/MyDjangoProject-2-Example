@@ -37,3 +37,19 @@ class Post(models.Model):
     def get_absolute_url(self):
         """可以使用模板中的get_absolute_url()方法,进而链接至特定的帖子"""
         return reverse('blog:post_detail', args=[self.publish.year, self.publish.month, self.publish.day, self.slug])
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    name = models.CharField(verbose_name="姓名", help_text="姓名", max_length=80, default="")
+    email = models.EmailField(verbose_name="电子邮件")
+    body = models.TextField(verbose_name="评论内容", help_text="评论内容", default="")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="评论创建时间")
+    updated = models.DateTimeField(auto_now=True, verbose_name="评论更新时间")
+    active = models.BooleanField(verbose_name="是否正常显示", help_text="是否正常显示", default=True)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.name, self.post)

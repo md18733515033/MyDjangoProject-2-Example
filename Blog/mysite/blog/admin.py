@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from blog.models import Post
+from blog.models import *
 
 
 @admin.register(Post)
@@ -18,3 +18,10 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'
     # 按照Status和Publish列进行排序
     ordering = ('status', 'publish')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'email', 'post', 'created', 'updated', 'active')
+    list_filter = ('active', 'created', 'updated')
+    search_fields = ('name', 'email', 'body')
